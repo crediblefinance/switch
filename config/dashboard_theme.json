@@ -5,12 +5,12 @@
         },
         "sidebar": {
             "primary": "#FCFCFD",
-            "textColor": "#525866",
-            "textColorPrimary": "#1C6DEA"
+            "textColor": "#808080",
+            "textColorPrimary": "#000000"
         },
         "buttons": {
             "primary": {
-                "backgroundColor": "#1272f9",
+                "backgroundColor": "#AEC76A",
                 "textColor": "#ffffff",
                 "hoverBackgroundColor": "#0860dd"
             },
@@ -22,7 +22,7 @@
         }
     },
     "urls": {
-        "faviconUrl": "",
-        "logoUrl": ""
+        "faviconUrl": "https://assets.credible.finance/Favicon_Black.png",
+        "logoUrl": "https://assets.credible.finance/CredibleBlackLogo.png"
     }
 }

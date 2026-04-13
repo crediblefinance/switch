@@ -127,3 +127,7 @@ Use `scripts/add_connector.sh` — an interactive wizard. Also see `add_connecto
 - Clippy warns on: `unwrap_used`, `expect_used`, `panic`, `todo`, `print_stdout`, `indexing_slicing`, and ~20 more (see `Cargo.toml` workspace lints)
 - In tests: `unwrap`, `expect`, `panic`, `dbg!`, `print!` are allowed (`.clippy.toml`)
 - Conventional commits: `feat`, `fix`, `perf`, `refactor`, `test`, `docs`, `chore`, `build`, `ci`
+
+## Testing Requirement
+
+Whenever making changes in the repo, make sure that the test cases don't break and the coverage doesn't drop below the required threshold.

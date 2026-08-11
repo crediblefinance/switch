@@ -1,0 +1,63 @@
+# Dependabot configuration.
+#
+# Without this file Dependabot runs in security-only mode: one PR per advisory,
+# ungrouped. Every one of those PRs rewrites package-lock.json, so they conflict
+# with each other and accumulate — which is how this org reached 200+ open PRs.
+#
+# Grouping caps that at three PRs per week per repo.
+#
+# Note on `update-types`: it only affects VERSION updates, not security updates
+# (per GitHub's Dependabot options reference). So the security group is
+# deliberately single — splitting it by semver level would silently do nothing.
+# A grouped PR's highest semver change is still available to automation via
+# dependabot/fetch-metadata, which is how an auto-merge workflow can tell a
+# patch-only security batch from one containing a major.
+#
+# Majors are deliberately NOT ignored: `ignore` also suppresses security
+# updates, which would hide a CVE whose only fix ships in a major.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build(deps)"
+      prefix-development: "build(deps-dev)"
+    groups:
+      # Every open advisory in one PR. In practice these are overwhelmingly
+      # lockfile-only (brace-expansion, nanoid, postcss, form-data,
+      # systeminformation), with the occasional major that needs a human.
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      # Routine freshness, safe half. Keeping this on is what prevents the
+      # three-major migrations (next 14->16, nodemailer 6->9) that cost far
+      # more than a steady trickle.
+      routine-safe:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["patch", "minor"]
+      # Routine majors, batched for deliberate review. This is where
+      # express 4->5, uuid 13+ (ESM-only), amqplib 2.x and multer 1->2 land.
+      routine-major:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["major"]
+
+  # Workflow actions. Monthly to keep the noise low; these rarely need action
+  # but do carry supply-chain risk.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      actions:
+        patterns: ["*"]
